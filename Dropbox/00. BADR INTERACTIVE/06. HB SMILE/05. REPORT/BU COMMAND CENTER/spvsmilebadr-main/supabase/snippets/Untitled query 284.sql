@@ -1,0 +1,1 @@
+ALTER TABLE daily_tasks ADD COLUMN duration numeric DEFAULT 0;
