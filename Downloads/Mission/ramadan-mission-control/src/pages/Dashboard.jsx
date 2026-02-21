@@ -5,7 +5,7 @@ import { getRamadanDay, calculateMissionXP, DIFFICULTY_LEVELS, getRank, PHASES }
 import { getMissionIcon, IconCheck } from '../components/icons/MissionIcons';
 
 export default function Dashboard({ onNavigate }) {
-    const { activeUser, crew, getEfficiency, getUserLog, allMissions, settings, getTotalStars, getPerfectStreak, getTeamTotalStars, getTeamMaxStars, saveDayLog } = useApp();
+    const { activeUser, crew, getMissionLog, allMissions, settings, getTotalStars, getPerfectStreak, getTeamTotalStars, getTeamMaxStars, saveDayLog } = useApp();
     const today = new Date().toISOString().split('T')[0];
     const currentRamadanDay = getRamadanDay(today);
     const [selectedDay, setSelectedDay] = useState(currentRamadanDay);
@@ -23,9 +23,8 @@ export default function Dashboard({ onNavigate }) {
     const [nowTick, setNowTick] = useState(Date.now());
 
     // Stats
-    const log = getUserLog(activeUser?.id);
+    const log = getMissionLog(activeUser?.id);
     const dayLog = log[selectedDay] || {};
-    const efficiency = getEfficiency(activeUser?.id);
 
     const difficulty = activeUser?.difficulty || 'cadet';
     const multiplier = DIFFICULTY_LEVELS[difficulty]?.multiplier || 1;
@@ -68,7 +67,7 @@ export default function Dashboard({ onNavigate }) {
     };
 
     const buildMissionValues = (memberId, memberMissions, patchFn) => {
-        const currentLog = getUserLog(memberId);
+        const currentLog = getMissionLog(memberId);
         const currentDay = currentLog[selectedDay] || {};
         const existingMissions = currentDay.missions || {};
 
@@ -381,7 +380,7 @@ export default function Dashboard({ onNavigate }) {
 
                         <div className="space-y-6">
                             {crew.filter(m => selectedCrewId === null || m.id === selectedCrewId).map(member => {
-                                const memberLog = getUserLog(member.id);
+                                const memberLog = getMissionLog(member.id);
                                 const memberDayLog = memberLog[selectedDay] || {};
                                 const memberDifficulty = member.difficulty || 'cadet';
                                 const memberMultiplier = DIFFICULTY_LEVELS[memberDifficulty]?.multiplier || 1;
@@ -571,7 +570,7 @@ export default function Dashboard({ onNavigate }) {
                                 const colors = ['bg-accent-purple', 'bg-primary', 'bg-accent-gold'];
                                 const color = colors[idx % colors.length];
                                 const isUser = member.id === activeUser.id;
-                                const eff = getEfficiency(member.id);
+                                const eff = 0; // Placeholder efficiency calculation
                                 const rank = getRank(getTotalStars(member.id));
 
                                 return (

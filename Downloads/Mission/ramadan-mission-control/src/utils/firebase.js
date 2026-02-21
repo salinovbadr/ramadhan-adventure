@@ -12,33 +12,16 @@ export function initFirebase() {
     app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     
-    // Check if we're in development and connect to emulator if available
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-      console.log('Running in development mode - checking for Firebase emulator...');
-      
-      // Try to connect to emulator first
-      try {
-        connectFirestoreEmulator(db, 'localhost', 8080);
-        console.log('Connected to Firebase emulator');
-      } catch (emulatorError) {
-        console.log('Firebase emulator not available, using production Firebase');
-        // Enable offline persistence for development
-        enableIndexedDbPersistence(db).catch((err) => {
-          console.warn('Firebase persistence failed:', err);
-        });
+    // Enable offline persistence for better UX
+    enableIndexedDbPersistence(db).catch((err) => {
+      if (err.code === 'failed-precondition') {
+        console.warn('Firebase persistence failed - multiple tabs open');
+      } else if (err.code === 'unimplemented') {
+        console.warn('Firebase persistence not available - browser not supported');
+      } else {
+        console.warn('Firebase persistence failed:', err);
       }
-    } else {
-      // Production - enable persistence with better error handling
-      enableIndexedDbPersistence(db).catch((err) => {
-        if (err.code === 'failed-precondition') {
-          console.warn('Firebase persistence failed - multiple tabs open');
-        } else if (err.code === 'unimplemented') {
-          console.warn('Firebase persistence not available - browser not supported');
-        } else {
-          console.warn('Firebase persistence failed:', err);
-        }
-      });
-    }
+    });
     
     isFirebaseEnabled = true;
     console.log('Firebase initialized successfully');

@@ -30,28 +30,7 @@ export function AppProvider({ children }) {
     const [activeUser, setActiveUserState] = useState(null);
     const [initialized, setInitialized] = useState(false);
 
-    // Sync on app load and on changes
-    useEffect(() => {
-        initializeApp();
-        reloadState();
-        // Try to sync from Firebase on load
-        if (isFirebaseReady()) {
-            syncFromFirebase().then(ok => {
-                if (ok) reloadState(); // Reload if remote was newer
-            });
-        }
-        setInitialized(true);
-    }, [reloadState]);
-
-    // Auto-sync to Firebase on changes (debounced)
-    useEffect(() => {
-        if (!isFirebaseReady()) return;
-        const timeout = setTimeout(() => {
-            syncToFirebase();
-        }, 2000); // 2 seconds debounce
-        return () => clearTimeout(timeout);
-    }, [crew, logs, settings, customMissions, missionOverrides]);
-
+    // Reload state function
     const reloadState = useCallback(() => {
         const c = getData('crew') || [];
         const l = getData('logs') || {};
@@ -66,6 +45,28 @@ export function AppProvider({ children }) {
         setMissionOverrides(mo);
         setActiveUserState(getActiveUser());
     }, []);
+
+    // Sync on app load and on changes
+    useEffect(() => {
+        initializeApp();
+        reloadState();
+        // Try to sync from Firebase on load
+        if (isFirebaseReady()) {
+            syncFromFirebase().then(ok => {
+                if (ok) reloadState(); // Reload if remote was newer
+            });
+        }
+        setInitialized(true);
+    }, []); // Remove reloadState from dependency array
+
+    // Auto-sync to Firebase on changes (debounced)
+    useEffect(() => {
+        if (!isFirebaseReady()) return;
+        const timeout = setTimeout(() => {
+            syncToFirebase();
+        }, 2000); // 2 seconds debounce
+        return () => clearTimeout(timeout);
+    }, [crew, logs, settings, customMissions, missionOverrides]);
 
     const allMissions = useMemo(() => {
         const defaultWithOverrides = MISSIONS.map(m => ({ ...m, ...(missionOverrides[m.id] || {}) }));
@@ -205,6 +206,7 @@ export function AppProvider({ children }) {
         getTeamTotalStars,
         getTeamMaxStars,
         saveDayLog,
+        getMissionLog,
         addMember,
         createFirstMember,
         removeMember,
