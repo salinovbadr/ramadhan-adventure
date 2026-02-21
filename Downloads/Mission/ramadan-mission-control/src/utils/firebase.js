@@ -28,9 +28,15 @@ export function initFirebase() {
         });
       }
     } else {
-      // Production - enable persistence
+      // Production - enable persistence with better error handling
       enableIndexedDbPersistence(db).catch((err) => {
-        console.warn('Firebase persistence failed:', err);
+        if (err.code === 'failed-precondition') {
+          console.warn('Firebase persistence failed - multiple tabs open');
+        } else if (err.code === 'unimplemented') {
+          console.warn('Firebase persistence not available - browser not supported');
+        } else {
+          console.warn('Firebase persistence failed:', err);
+        }
       });
     }
     
@@ -70,7 +76,18 @@ export async function fetchFromFirebase() {
     }
     return null;
   } catch (error) {
-    console.error('Error fetching from Firebase:', error);
+    // Handle different types of Firebase errors
+    if (error.code === 'unavailable') {
+      console.warn('Firebase temporarily unavailable - using local data');
+    } else if (error.code === 'client-offline') {
+      console.warn('Firebase client offline - check connection');
+    } else if (error.code === 'permission-denied') {
+      console.error('Firebase permission denied - check Firestore rules');
+    } else if (error.code === 'not-found') {
+      console.log('No data found in Firebase - first time user');
+    } else {
+      console.error('Error fetching from Firebase:', error);
+    }
     return null;
   }
 }
@@ -89,7 +106,18 @@ export async function pushToFirebase(data) {
     console.log('Data synced to Firebase');
     return true;
   } catch (error) {
-    console.error('Error pushing to Firebase:', error);
+    // Handle different types of Firebase errors
+    if (error.code === 'unavailable') {
+      console.warn('Firebase temporarily unavailable - data saved locally only');
+    } else if (error.code === 'client-offline') {
+      console.warn('Firebase client offline - data saved locally only');
+    } else if (error.code === 'permission-denied') {
+      console.error('Firebase permission denied - check Firestore rules');
+    } else if (error.code === 'resource-exhausted') {
+      console.warn('Firebase quota exceeded - try again later');
+    } else {
+      console.error('Error pushing to Firebase:', error);
+    }
     return false;
   }
 }
