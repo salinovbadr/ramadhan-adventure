@@ -4,13 +4,13 @@ import { Trophy, Flame, Rocket, Star, Medal } from 'lucide-react';
 import { getRank, AVATARS } from '../utils/missions';
 
 export default function Leaderboard() {
-    const { crew, getEfficiency, activeUser, getTotalStars, getPerfectStreak } = useApp();
+    const { crew, activeUser, getTotalStars, getPerfectStreak } = useApp();
 
     const leaderboardData = useMemo(() => {
         return crew
             .map(member => {
                 const totalStars = getTotalStars(member.id);
-                const efficiency = getEfficiency(member.id);
+                const efficiency = 0; // Placeholder efficiency calculation
                 const rank = getRank(totalStars);
                 const avatar = AVATARS.find(a => a.id === member.avatar);
 

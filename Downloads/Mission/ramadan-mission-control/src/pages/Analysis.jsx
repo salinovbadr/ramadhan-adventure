@@ -4,7 +4,7 @@ import { Moon, Shield, Sun } from 'lucide-react';
 import { getRamadanDay, calculateMissionXP, PHASES } from '../utils/missions';
 
 export default function Analysis() {
-    const { activeUser, crew, allMissions, settings, getUserLog } = useApp();
+    const { activeUser, crew, allMissions, settings, getMissionLog } = useApp();
     const currentDay = getRamadanDay(new Date().toISOString().split('T')[0]);
 
     const isMissionActiveOnDay = (mission, day) => {
@@ -36,7 +36,7 @@ export default function Analysis() {
                 let totalXP = 0;
                 let maxXP = 0;
                 for (let day = startDay; day <= endDay; day++) {
-                    const userLog = getUserLog(member.id);
+                    const userLog = getMissionLog(member.id);
                     const dayLog = userLog?.[day] || {};
                     const missionsObj = dayLog.missions || {};
 
@@ -74,7 +74,7 @@ export default function Analysis() {
                 isActive: currentDay >= startDay && currentDay <= endDay
             };
         });
-    }, [crew, enabledMissions, getUserLog, currentDay]);
+    }, [crew, enabledMissions, getMissionLog, currentDay]);
 
     const getPhaseIcon = (id) => {
         switch (id) {
