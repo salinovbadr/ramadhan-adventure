@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AppProvider } from './context/AppContext';
 import StarfieldBg from './components/StarfieldBg';
 import TopNav from './components/TopNav';
@@ -12,6 +12,21 @@ import { useApp } from './context/AppContext';
 function AppContent() {
   const [activePage, setActivePage] = useState('dashboard');
   const { crew, activeUser, initialized } = useApp();
+
+  // Sync activePage with URL path
+  useEffect(() => {
+    const path = window.location.pathname.replace('/', '') || 'dashboard';
+    if (path && path !== activePage) {
+      setActivePage(path);
+    }
+  }, []);
+
+  // Update URL when activePage changes
+  useEffect(() => {
+    if (activePage && window.location.pathname !== `/${activePage}`) {
+      window.history.pushState({}, '', `/${activePage}`);
+    }
+  }, [activePage]);
 
   const renderPage = () => {
     switch (activePage) {

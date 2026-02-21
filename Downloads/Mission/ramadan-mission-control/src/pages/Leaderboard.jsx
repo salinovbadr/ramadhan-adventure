@@ -24,7 +24,7 @@ export default function Leaderboard() {
                 };
             })
             .sort((a, b) => b.totalStars - a.totalStars); // Sort by Stars
-    }, [crew, getTotalStars, getEfficiency, getPerfectStreak]);
+    }, [crew, getTotalStars, getPerfectStreak]);
 
     const top3 = leaderboardData.slice(0, 3);
     const restOfCrew = leaderboardData.slice(3);
