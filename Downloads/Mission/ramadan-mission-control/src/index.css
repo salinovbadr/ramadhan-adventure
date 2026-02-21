@@ -1,0 +1,105 @@
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300 antialiased;
+    background-image: radial-gradient(circle at center, #1e293b 0%, #0b1215 100%);
+  }
+}
+
+@layer components {
+
+  /* Glass Panel for main containers and cards */
+  .glass-panel {
+    @apply bg-[rgba(22,32,38,0.7)] backdrop-blur-[16px] border border-[rgba(255,255,255,0.08)] shadow-[0_4px_30px_rgba(0,0,0,0.5)];
+  }
+
+  /* Variations */
+  .glass-card {
+    @apply glass-panel rounded-2xl;
+  }
+
+  .glass-card-blue {
+    @apply bg-[#25aff4]/10 backdrop-blur-md border border-[#25aff4]/20 rounded-2xl;
+  }
+
+  .glass-card-gold {
+    @apply bg-[#fbbf24]/10 backdrop-blur-md border border-[#fbbf24]/20 rounded-2xl;
+  }
+
+  /* Navigation Item */
+  .nav-item {
+    @apply text-slate-300 hover:text-primary text-sm font-medium transition-colors px-3 py-2 rounded-lg;
+  }
+
+  .nav-item.active {
+    @apply text-white font-bold border-b-2 border-primary bg-primary/5 shadow-[0_4px_10px_-2px_rgba(37,175,244,0.3)];
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-all text-sm font-bold shadow-[0_0_20px_-5px_rgba(37,175,244,0.5)];
+  }
+
+  .btn-secondary {
+    @apply flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-dark border border-white/10 text-white hover:bg-white/5 transition-all text-sm font-medium;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all;
+  }
+
+  /* Progress Bars */
+  .progress-track {
+    @apply bg-slate-700 rounded-full overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500 relative bg-gradient-to-r from-primary to-blue-400 shadow-[0_0_10px_rgba(37, 175, 244, 0.3)];
+  }
+
+  /* Custom Glow Utils */
+  .glow-text {
+    text-shadow: 0 0 10px rgba(37, 175, 244, 0.5);
+  }
+
+  .planet-glow-purple {
+    box-shadow: 0 0 60px -20px rgba(168, 85, 247, 0.6);
+  }
+
+  .planet-glow-blue {
+    box-shadow: 0 0 60px -20px rgba(37, 175, 244, 0.6);
+  }
+
+  .planet-glow-gold {
+    box-shadow: 0 0 60px -20px rgba(234, 179, 8, 0.6);
+  }
+
+  /* Scrollbar override */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #0b1215;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #223c49;
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #25aff4;
+  }
+}

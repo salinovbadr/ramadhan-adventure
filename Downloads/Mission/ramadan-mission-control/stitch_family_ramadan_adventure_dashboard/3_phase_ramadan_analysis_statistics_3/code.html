@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ramadan Mission Control - Main Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#25aff4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0b1215", // Deep space dark
+                        "surface-dark": "#162026",
+                        "accent-purple": "#a855f7",
+                        "accent-gold": "#eab308",
+                        "accent-green": "#22c55e",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                    backgroundImage: {
+                        'star-pattern': "radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px), radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px), radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>.glass-panel {
+            background: rgba(22, 32, 38, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .progress-glow-primary {
+            box-shadow: 0 0 20px -5px rgba(37, 175, 244, 0.4);
+        }
+        .checkbox-glow:checked {
+            box-shadow: 0 0 10px rgba(37, 175, 244, 0.6);
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1215; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #223c49; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #25aff4; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col relative overflow-x-hidden">
+<div class="fixed inset-0 z-0 pointer-events-none opacity-20" style="background-image: radial-gradient(circle at center, #1e293b 0%, #0b1215 100%);"></div>
+<div class="fixed inset-0 z-0 pointer-events-none opacity-30 bg-[url('https://placeholder.pics/svg/1000')] bg-repeat opacity-[0.05]" data-alt="Subtle starry background pattern"></div>
+<header class="relative z-20 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 py-4 lg:px-10 bg-background-dark/80 backdrop-blur-md sticky top-0">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-[32px]">rocket_launch</span>
+</div>
+<div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-wider uppercase">Ramadan Mission Control</h2>
+<p class="text-xs text-slate-400 font-medium tracking-widest">STARDATE 1445H</p>
+</div>
+</div>
+<nav class="hidden md:flex flex-1 justify-center gap-8">
+<a class="text-white text-sm font-bold border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-slate-300 hover:text-primary text-sm font-medium transition-colors" href="#">Mission Analysis</a>
+<a class="text-slate-300 hover:text-primary text-sm font-medium transition-colors" href="#">Leaderboard</a>
+<a class="text-slate-300 hover:text-primary text-sm font-medium transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-full bg-surface-dark border border-white/10 hover:border-primary/50 transition-colors text-white relative group">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full bg-surface-dark border border-white/10 hover:border-primary/50 transition-colors">
+<div class="size-8 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white font-bold text-xs">
+                    AB
+                </div>
+<span class="text-sm font-medium hidden sm:block">Abah</span>
+<span class="material-symbols-outlined text-sm text-slate-400">expand_more</span>
+</button>
+</div>
+</header>
+<main class="relative z-10 flex-grow flex flex-col p-4 lg:p-8 max-w-[1600px] mx-auto w-full gap-6">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h1 class="text-3xl lg:text-4xl font-bold text-white mb-2">Welcome Back, Commander Abah</h1>
+<p class="text-slate-400">Mission Day 14: Mid-Ramadan Sector. All systems nominal.</p>
+</div>
+<div class="hidden md:block text-right">
+<div class="text-accent-gold text-2xl font-bold font-mono">18:42</div>
+<div class="text-xs text-slate-500 uppercase tracking-widest">Time to Maghrib</div>
+</div>
+</div>
+<section class="glass-panel rounded-[1.5rem] p-6 w-full">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">timeline</span>
+                    Current Flight Status
+                </h3>
+<span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20">Day 14 of 30</span>
+</div>
+<div class="relative pt-8 pb-4 px-4 overflow-x-auto">
+<div class="absolute top-[4.5rem] left-0 w-full h-1 bg-white/10 rounded-full"></div>
+<div class="absolute top-[4.5rem] left-0 w-[46%] h-1 bg-gradient-to-r from-primary/20 via-primary to-primary rounded-full progress-glow-primary"></div>
+<div class="flex justify-between relative min-w-[800px]">
+<div class="flex flex-col items-center gap-3">
+<div class="text-xs font-bold text-primary">Day 1</div>
+<div class="size-4 rounded-full bg-primary border-4 border-surface-dark z-10"></div>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="text-xs font-medium text-slate-500">Day 10</div>
+<div class="size-4 rounded-full bg-primary border-4 border-surface-dark z-10"></div>
+<div class="text-[10px] text-accent-purple font-bold uppercase tracking-wider mt-1">Rahmat</div>
+</div>
+<div class="absolute left-[46%] -translate-x-1/2 -top-6 flex flex-col items-center z-20">
+<div class="bg-primary/20 p-2 rounded-full border border-primary animate-pulse">
+<span class="material-symbols-outlined text-primary text-xl rotate-45">rocket_launch</span>
+</div>
+<div class="h-4 w-0.5 bg-primary/50"></div>
+<div class="size-3 rounded-full bg-white shadow-[0_0_10px_white]"></div>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="text-xs font-medium text-slate-500">Day 20</div>
+<div class="size-4 rounded-full bg-surface-dark border-2 border-slate-600 z-10"></div>
+<div class="text-[10px] text-primary font-bold uppercase tracking-wider mt-1">Maghfirah</div>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="text-xs font-medium text-slate-500">Day 30</div>
+<div class="size-4 rounded-full bg-surface-dark border-2 border-slate-600 z-10"></div>
+<div class="text-[10px] text-accent-gold font-bold uppercase tracking-wider mt-1">Itqun Minan Nar</div>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
+<div class="lg:col-span-7 flex flex-col gap-6">
+<section class="glass-panel rounded-[1.5rem] p-6 flex-grow">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-green text-base">checklist</span>
+                            Daily Mission Objectives
+                        </h3>
+<div class="text-xs text-slate-400">4/6 Completed</div>
+</div>
+<div class="space-y-3">
+<label class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer">
+<input checked="" class="appearance-none size-6 rounded-md border-2 border-slate-500 checked:bg-primary checked:border-primary transition-all checkbox-glow relative checked:before:content-['✔'] checked:before:absolute checked:before:text-white checked:before:text-sm checked:before:inset-0 checked:before:flex checked:before:items-center checked:before:justify-center" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-bold text-white group-hover:text-primary transition-colors">Fajr Prayer</h4>
+<p class="text-xs text-slate-400">Congregation at Mosque</p>
+</div>
+<span class="text-accent-gold font-bold text-sm">+50 XP</span>
+</label>
+<label class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer">
+<input checked="" class="appearance-none size-6 rounded-md border-2 border-slate-500 checked:bg-primary checked:border-primary transition-all checkbox-glow relative checked:before:content-['✔'] checked:before:absolute checked:before:text-white checked:before:text-sm checked:before:inset-0 checked:before:flex checked:before:items-center checked:before:justify-center" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-bold text-white group-hover:text-primary transition-colors">Quran Reading</h4>
+<p class="text-xs text-slate-400">Surah Al-Kahf (Juz 15)</p>
+</div>
+<span class="text-accent-gold font-bold text-sm">+100 XP</span>
+</label>
+<label class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer">
+<input checked="" class="appearance-none size-6 rounded-md border-2 border-slate-500 checked:bg-primary checked:border-primary transition-all checkbox-glow relative checked:before:content-['✔'] checked:before:absolute checked:before:text-white checked:before:text-sm checked:before:inset-0 checked:before:flex checked:before:items-center checked:before:justify-center" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-bold text-white group-hover:text-primary transition-colors">Dhuhr Prayer</h4>
+<p class="text-xs text-slate-400">On time</p>
+</div>
+<span class="text-accent-gold font-bold text-sm">+30 XP</span>
+</label>
+<label class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer">
+<input checked="" class="appearance-none size-6 rounded-md border-2 border-slate-500 checked:bg-primary checked:border-primary transition-all checkbox-glow relative checked:before:content-['✔'] checked:before:absolute checked:before:text-white checked:before:text-sm checked:before:inset-0 checked:before:flex checked:before:items-center checked:before:justify-center" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-bold text-white group-hover:text-primary transition-colors">Asr Prayer</h4>
+<p class="text-xs text-slate-400">Congregation</p>
+</div>
+<span class="text-accent-gold font-bold text-sm">+40 XP</span>
+</label>
+<label class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer">
+<input class="appearance-none size-6 rounded-md border-2 border-slate-500 checked:bg-primary checked:border-primary transition-all checkbox-glow relative checked:before:content-['✔'] checked:before:absolute checked:before:text-white checked:before:text-sm checked:before:inset-0 checked:before:flex checked:before:items-center checked:before:justify-center" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-bold text-slate-300 group-hover:text-primary transition-colors">Maghrib Prayer &amp; Iftar</h4>
+<p class="text-xs text-slate-500">Upcoming in 2h 15m</p>
+</div>
+<span class="text-slate-500 font-bold text-sm">--</span>
+</label>
+<label class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer">
+<input class="appearance-none size-6 rounded-md border-2 border-slate-500 checked:bg-primary checked:border-primary transition-all checkbox-glow relative checked:before:content-['✔'] checked:before:absolute checked:before:text-white checked:before:text-sm checked:before:inset-0 checked:before:flex checked:before:items-center checked:before:justify-center" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-bold text-slate-300 group-hover:text-primary transition-colors">Taraweeh</h4>
+<p class="text-xs text-slate-500">Mission: Complete 8 Rakaat</p>
+</div>
+<span class="text-slate-500 font-bold text-sm">--</span>
+</label>
+</div>
+</section>
+</div>
+<div class="lg:col-span-5 flex flex-col gap-6">
+<section class="glass-panel rounded-[1.5rem] p-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-gold text-base">bolt</span>
+                            Daily Fuel
+                        </h3>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-gradient-to-br from-accent-gold/20 to-orange-500/5 border border-accent-gold/20 p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<div class="text-xs text-accent-gold font-bold uppercase tracking-wider mb-1">Perfect Streak</div>
+<div class="text-3xl font-bold text-white mb-1">12</div>
+<div class="text-xs text-slate-400">Days</div>
+</div>
+<div class="bg-gradient-to-br from-primary/20 to-blue-500/5 border border-primary/20 p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<div class="text-xs text-primary font-bold uppercase tracking-wider mb-1">Total Stars</div>
+<div class="text-3xl font-bold text-white mb-1">450</div>
+<div class="text-xs text-slate-400">Collected</div>
+</div>
+</div>
+</section>
+<section class="glass-panel rounded-[1.5rem] p-6 flex-grow">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-purple text-base">groups</span>
+                            Family Fleet Status
+                        </h3>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-dark/50 border border-white/5 rounded-xl p-4 flex items-center gap-4 hover:border-accent-purple/50 transition-colors">
+<div class="relative size-14 flex-shrink-0">
+<svg class="size-full -rotate-90" viewBox="0 0 100 100">
+<circle class="text-white/5 stroke-current" cx="50" cy="50" fill="none" r="44" stroke-width="8"></circle>
+<circle class="text-accent-purple stroke-current" cx="50" cy="50" fill="none" r="44" stroke-dasharray="276" stroke-dashoffset="20" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="size-10 rounded-full bg-accent-purple/20 text-accent-purple flex items-center justify-center font-bold text-sm">IB</div>
+</div>
+</div>
+<div class="flex-grow">
+<h4 class="text-white font-bold">Ibu</h4>
+<span class="text-xs text-accent-purple border border-accent-purple/30 px-2 py-0.5 rounded-full bg-accent-purple/10">Chief Pilot</span>
+</div>
+<div class="text-right">
+<div class="text-lg font-bold text-white">92%</div>
+<div class="text-xs text-slate-500">Efficiency</div>
+</div>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 rounded-xl p-4 flex items-center gap-4 hover:border-primary/50 transition-colors">
+<div class="relative size-14 flex-shrink-0">
+<svg class="size-full -rotate-90" viewBox="0 0 100 100">
+<circle class="text-white/5 stroke-current" cx="50" cy="50" fill="none" r="44" stroke-width="8"></circle>
+<circle class="text-primary stroke-current" cx="50" cy="50" fill="none" r="44" stroke-dasharray="276" stroke-dashoffset="80" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="size-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm">OM</div>
+</div>
+</div>
+<div class="flex-grow">
+<h4 class="text-white font-bold">Omar</h4>
+<span class="text-xs text-primary border border-primary/30 px-2 py-0.5 rounded-full bg-primary/10">Junior Recruit</span>
+</div>
+<div class="text-right">
+<div class="text-lg font-bold text-white">71%</div>
+<div class="text-xs text-slate-500">Efficiency</div>
+</div>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 rounded-xl p-4 flex items-center gap-4 hover:border-accent-gold/50 transition-colors">
+<div class="relative size-14 flex-shrink-0">
+<svg class="size-full -rotate-90" viewBox="0 0 100 100">
+<circle class="text-white/5 stroke-current" cx="50" cy="50" fill="none" r="44" stroke-width="8"></circle>
+<circle class="text-accent-gold stroke-current" cx="50" cy="50" fill="none" r="44" stroke-dasharray="276" stroke-dashoffset="140" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="size-10 rounded-full bg-accent-gold/20 text-accent-gold flex items-center justify-center font-bold text-sm">AL</div>
+</div>
+</div>
+<div class="flex-grow">
+<h4 class="text-white font-bold">Alya</h4>
+<span class="text-xs text-accent-gold border border-accent-gold/30 px-2 py-0.5 rounded-full bg-accent-gold/10">Cadet</span>
+</div>
+<div class="text-right">
+<div class="text-lg font-bold text-white">45%</div>
+<div class="text-xs text-slate-500">Efficiency</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors flex items-center justify-center gap-2">
+                        View Detailed Telemetry
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</section>
+</div>
+</div>
+</main>
+<footer class="p-6 text-center text-slate-600 text-xs font-medium relative z-10">
+<p>RAMADAN ADVENTURE • SYSTEM VERSION 2.4 • © 1445H</p>
+</footer>
+
+</body></html>

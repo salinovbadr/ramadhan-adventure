@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ramadan Mission Control - Mission Configuration</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#25aff4",
+                        "primary-glow": "#25aff480",
+                        "secondary": "#a855f7",
+                        "secondary-glow": "#a855f780",
+                        "background-light": "#f0f4f8",
+                        "background-dark": "#0b0e14",
+                        "surface-dark": "#131b24",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "sans": ["Space Grotesk", "sans-serif"] 
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(37, 175, 244, 0.3)',
+                        'glow-hover': '0 0 25px rgba(37, 175, 244, 0.5)',
+                        'glow-purple': '0 0 15px rgba(168, 85, 247, 0.3)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0e14; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #25aff4; 
+        }
+        .glass-panel {
+            background: rgba(19, 27, 36, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px rgba(37, 175, 244, 0.5);
+        }
+        .neon-text-purple {
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }.toggle-checkbox:checked {
+            right: 0;
+            border-color: #25aff4;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #25aff4;
+            box-shadow: 0 0 15px rgba(37, 175, 244, 0.4);
+        }
+        .stepper-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex flex-col w-72 h-full bg-[#101d23] dark:bg-[#0f151a] border-r border-slate-800 relative z-20">
+<div class="p-6 flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-glow">
+<span class="material-symbols-outlined text-white">rocket_launch</span>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold leading-none tracking-wide uppercase">Mission Control</h1>
+<p class="text-[#90b7cb] text-xs font-mono mt-1">SYS.VER.2.0.4</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">person</span>
+<span class="font-medium tracking-wide">Crew Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">groups</span>
+<span class="font-medium tracking-wide">Family Fleet</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/20 border border-primary/30 text-white shadow-glow group transition-all" href="#">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">flag</span>
+<span class="font-medium tracking-wide">Mission Config</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">notifications_active</span>
+<span class="font-medium tracking-wide">Comms &amp; Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">tune</span>
+<span class="font-medium tracking-wide">Interface</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-800">
+<button class="w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 border border-red-500/20 transition-all font-bold tracking-wide uppercase text-sm">
+<span class="material-symbols-outlined text-lg">eject</span>
+                    Abort Mission
+                </button>
+</div>
+</aside>
+<main class="flex-1 h-full overflow-y-auto relative">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-10 max-w-6xl mx-auto p-6 md:p-12 pb-24 space-y-8">
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
+<div>
+<h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight neon-text">MISSION CONFIGURATION</h2>
+<p class="text-[#90b7cb] mt-2 font-light text-lg">Calibrate mission objectives and reward parameters.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end mr-4">
+<span class="text-xs text-slate-400 uppercase tracking-widest">Active Cycle</span>
+<span class="text-primary font-mono font-bold">RAMADAN 1445</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-full border border-slate-700 shadow-glow">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-mono text-slate-400 uppercase">Obj. Systems Nominal</span>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-8">
+<section class="glass-panel rounded-2xl p-1 overflow-hidden">
+<div class="bg-slate-900/50 p-4 border-b border-slate-800 flex items-center justify-between">
+<h3 class="text-xl font-bold text-white flex items-center gap-3">
+<span class="p-2 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/30 material-symbols-outlined">rocket</span>
+                                    Daily Core Missions
+                                </h3>
+<span class="text-xs font-mono text-slate-500 px-2 py-1 bg-slate-800 rounded">REQUIRED</span>
+</div>
+<div class="p-6 space-y-5">
+<p class="text-slate-400 text-sm mb-4">Select which primary Ibadah modules to track for daily mission completion.</p>
+<div class="flex items-center justify-between bg-slate-800/30 p-4 rounded-xl border border-slate-700/50 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400">
+<span class="material-symbols-outlined">no_food</span>
+</div>
+<div>
+<p class="text-white font-bold">Sawm (Fasting)</p>
+<p class="text-slate-500 text-xs">Primary Daylight Objective</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-[0_0_10px_rgba(0,0,0,0.5)] peer-checked:shadow-[0_0_15px_rgba(37,175,244,0.6)]"></div>
+</label>
+</div>
+<div class="flex items-center justify-between bg-slate-800/30 p-4 rounded-xl border border-slate-700/50 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400">
+<span class="material-symbols-outlined">mosque</span>
+</div>
+<div>
+<p class="text-white font-bold">5 Daily Prayers</p>
+<p class="text-slate-500 text-xs">Communication Links</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-[0_0_10px_rgba(0,0,0,0.5)] peer-checked:shadow-[0_0_15px_rgba(37,175,244,0.6)]"></div>
+</label>
+</div>
+<div class="flex items-center justify-between bg-slate-800/30 p-4 rounded-xl border border-slate-700/50 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-400">
+<span class="material-symbols-outlined">nights_stay</span>
+</div>
+<div>
+<p class="text-white font-bold">Tarawih Prayers</p>
+<p class="text-slate-500 text-xs">Night Ops Bonus</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-[0_0_10px_rgba(0,0,0,0.5)] peer-checked:shadow-[0_0_15px_rgba(37,175,244,0.6)]"></div>
+</label>
+</div>
+<div class="flex items-center justify-between bg-slate-800/30 p-4 rounded-xl border border-slate-700/50 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+<span class="material-symbols-outlined">star</span>
+</div>
+<div>
+<p class="text-white font-bold">Sunnah Prayers</p>
+<p class="text-slate-500 text-xs">Optional Extra Credit</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-[0_0_10px_rgba(0,0,0,0.5)] peer-checked:shadow-[0_0_15px_rgba(37,175,244,0.6)]"></div>
+</label>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<section class="glass-panel rounded-2xl p-1 overflow-hidden h-full">
+<div class="bg-slate-900/50 p-4 border-b border-slate-800 flex items-center justify-between">
+<h3 class="text-lg font-bold text-white flex items-center gap-3">
+<span class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 material-symbols-outlined">menu_book</span>
+                                        Quran Exploration
+                                    </h3>
+</div>
+<div class="p-6 space-y-6">
+<div class="bg-slate-800/50 p-4 rounded-xl text-center border border-slate-700">
+<p class="text-xs text-slate-400 uppercase tracking-widest mb-2">Daily Target</p>
+<div class="flex items-center justify-center gap-4">
+<button class="stepper-btn w-10 h-10 rounded-full bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-white transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<div class="text-center">
+<span class="block text-4xl font-bold text-white neon-text">1</span>
+<span class="text-xs text-emerald-400 font-mono">JUZ / DAY</span>
+</div>
+<button class="stepper-btn w-10 h-10 rounded-full bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<div class="space-y-3">
+<p class="text-xs text-slate-400 font-mono uppercase">Alternate Goals:</p>
+<div class="grid grid-cols-2 gap-2">
+<button class="px-3 py-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-sm font-medium hover:bg-emerald-500/20">4 Pages</button>
+<button class="px-3 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 text-sm font-medium hover:text-white hover:bg-slate-700">10 Pages</button>
+<button class="px-3 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 text-sm font-medium hover:text-white hover:bg-slate-700">20 Pages</button>
+<button class="px-3 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 text-sm font-medium hover:text-white hover:bg-slate-700">Custom</button>
+</div>
+</div>
+</div>
+</section>
+<section class="glass-panel rounded-2xl p-1 overflow-hidden h-full">
+<div class="bg-slate-900/50 p-4 border-b border-slate-800 flex items-center justify-between">
+<h3 class="text-lg font-bold text-white flex items-center gap-3">
+<span class="p-2 rounded-lg bg-pink-500/20 text-pink-400 border border-pink-500/30 material-symbols-outlined">volunteer_activism</span>
+                                        Charity &amp; Kindness
+                                    </h3>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 border border-slate-700/50 group hover:border-pink-500/30 transition-all">
+<div class="h-8 w-8 rounded bg-pink-500/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-pink-400 text-sm">soup_kitchen</span>
+</div>
+<input class="bg-transparent border-none text-white text-sm focus:ring-0 w-full p-0 font-medium" type="text" value="Feed a Fasting Person"/>
+<button class="text-slate-500 hover:text-pink-400"><span class="material-symbols-outlined text-lg">edit</span></button>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 border border-slate-700/50 group hover:border-pink-500/30 transition-all">
+<div class="h-8 w-8 rounded bg-pink-500/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-pink-400 text-sm">home_repair_service</span>
+</div>
+<input class="bg-transparent border-none text-white text-sm focus:ring-0 w-full p-0 font-medium" type="text" value="Help at Home"/>
+<button class="text-slate-500 hover:text-pink-400"><span class="material-symbols-outlined text-lg">edit</span></button>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 border border-slate-700/50 group hover:border-pink-500/30 transition-all">
+<div class="h-8 w-8 rounded bg-pink-500/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-pink-400 text-sm">savings</span>
+</div>
+<input class="bg-transparent border-none text-white text-sm focus:ring-0 w-full p-0 font-medium" type="text" value="Give Sadaqah"/>
+<button class="text-slate-500 hover:text-pink-400"><span class="material-symbols-outlined text-lg">edit</span></button>
+</div>
+<button class="w-full py-2 rounded-lg border border-dashed border-slate-600 text-slate-400 hover:text-white hover:border-slate-400 text-xs uppercase font-bold tracking-wide flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-sm">add_circle</span> Add Custom Objective
+                                    </button>
+</div>
+</section>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-8">
+<div class="glass-panel p-6 rounded-2xl space-y-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl text-white">military_tech</span>
+</div>
+<h3 class="text-lg font-bold text-white flex items-center gap-2 relative z-10">
+<span class="material-symbols-outlined text-secondary">signal_cellular_alt</span>
+                                Difficulty Level
+                            </h3>
+<div class="space-y-3 relative z-10">
+<label class="flex items-center gap-3 p-3 rounded-xl border border-slate-700 cursor-pointer bg-slate-800/50 hover:bg-slate-700/50 transition-all">
+<input class="text-primary focus:ring-primary bg-slate-900 border-slate-600" name="difficulty" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-white font-bold text-sm">Cadet</span>
+<span class="text-xs text-slate-400">1x PTS</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Standard rewards.</p>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-xl border-2 border-primary bg-primary/10 cursor-pointer shadow-glow transition-all">
+<input checked="" class="text-primary focus:ring-primary bg-slate-900 border-slate-600" name="difficulty" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-white font-bold text-sm">Officer</span>
+<span class="text-xs text-primary font-bold">1.5x PTS</span>
+</div>
+<p class="text-xs text-slate-300 mt-1">Increased challenges.</p>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-xl border border-slate-700 cursor-pointer bg-slate-800/50 hover:bg-slate-700/50 transition-all">
+<input class="text-secondary focus:ring-secondary bg-slate-900 border-slate-600" name="difficulty" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-white font-bold text-sm">Commander</span>
+<span class="text-xs text-secondary font-bold">2x PTS</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Maximum rewards.</p>
+</div>
+</label>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-2xl space-y-4 border-t-4 border-t-yellow-400">
+<h3 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-yellow-400">trophy</span>
+                                Reward Projection
+                            </h3>
+<div class="p-4 bg-slate-900 rounded-xl space-y-4">
+<div class="flex justify-between items-center pb-3 border-b border-slate-800">
+<span class="text-sm text-slate-400">Daily Completion</span>
+<div class="flex items-center gap-1">
+<span class="text-yellow-400 material-symbols-outlined text-sm">star</span>
+<span class="text-white font-mono font-bold">50</span>
+</div>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-slate-800">
+<span class="text-sm text-slate-400">Quran Bonus</span>
+<div class="flex items-center gap-1">
+<span class="text-yellow-400 material-symbols-outlined text-sm">star</span>
+<span class="text-white font-mono font-bold">30</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-slate-400">Charity Acts</span>
+<div class="flex items-center gap-1">
+<span class="text-yellow-400 material-symbols-outlined text-sm">star</span>
+<span class="text-white font-mono font-bold">20</span>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 rounded-xl p-3 border border-yellow-500/20 text-center">
+<span class="text-xs uppercase text-yellow-500 font-bold tracking-wider block mb-1">Total Potential / Day</span>
+<span class="text-3xl font-bold text-white neon-text-purple">150 XP</span>
+</div>
+</div>
+<div class="pt-4 flex flex-col gap-3">
+<button class="bg-primary hover:bg-blue-400 text-white w-full py-4 rounded-xl font-bold shadow-glow-hover transition-all flex items-center justify-center gap-2 text-lg uppercase tracking-wide">
+<span class="material-symbols-outlined">save</span>
+                                Save &amp; Launch
+                            </button>
+<button class="text-slate-500 hover:text-white text-sm font-medium transition-colors text-center">
+                                Restore Default Protocols
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
