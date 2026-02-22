@@ -7,8 +7,8 @@ export default defineConfig({
   base: '/',
   server: {
     https: {
-      key: './key.pem',
-      cert: './cert.pem'
+      key: './localhost.key',
+      cert: './localhost.crt'
     },
     host: true,
     port: 5173

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Clock, Users, Rocket } from 'lucide-react';
+import { Users, Rocket } from 'lucide-react';
 import { getRamadanDay, calculateMissionXP, DIFFICULTY_LEVELS, getRank, PHASES } from '../utils/missions';
 import { getMissionIcon, IconCheck } from '../components/icons/MissionIcons';
 
@@ -30,8 +30,13 @@ export default function Dashboard({ onNavigate }) {
     const multiplier = DIFFICULTY_LEVELS[difficulty]?.multiplier || 1;
 
     const enabledMissions = useMemo(() => {
-        if (!settings.enabledMissions) return allMissions;
-        return allMissions.filter(m => settings.enabledMissions.includes(m.id));
+        // If no enabledMissions setting exists, show all missions
+        if (!settings.enabledMissions || settings.enabledMissions.length === 0) {
+            return allMissions;
+        }
+        
+        const filtered = allMissions.filter(m => settings.enabledMissions.includes(m.id));
+        return filtered;
     }, [settings.enabledMissions, allMissions]);
 
     const isMissionActiveOnDay = (mission, day) => {
@@ -59,9 +64,12 @@ export default function Dashboard({ onNavigate }) {
 
     const sortMissions = (missions) => {
         return [...missions].sort((a, b) => {
-            const ao = Number.isFinite(a.order) ? a.order : 0;
-            const bo = Number.isFinite(b.order) ? b.order : 0;
+            // Primary sort by order property
+            const ao = Number.isFinite(a.order) ? a.order : 999;
+            const bo = Number.isFinite(b.order) ? b.order : 999;
             if (ao !== bo) return ao - bo;
+            
+            // Secondary sort by name
             return String(a.name || '').localeCompare(String(b.name || ''));
         });
     };
@@ -361,7 +369,6 @@ export default function Dashboard({ onNavigate }) {
                                         if (typeof el.showPicker === 'function') el.showPicker();
                                     }}
                                 >
-                                    <Clock size={14} />
                                     <span className="hidden lg:inline">Ramadan Day</span>
                                     <select
                                         ref={daySelectRef}
@@ -508,53 +515,6 @@ export default function Dashboard({ onNavigate }) {
                                 <div className="text-xs text-slate-400">Collected</div>
                             </div>
                         </div>
-                    </section>
-
-                    {/* Prayer Times */}
-                    <section className="glass-panel rounded-[1.5rem] p-6">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
-                                <Clock size={16} className="text-accent-gold" />
-                                Prayer Times
-                            </h3>
-                        </div>
-
-                        {prayerStatus.error && (
-                            <div className="text-xs text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-                                {prayerStatus.error}
-                            </div>
-                        )}
-
-                        {!prayerStatus.error && (
-                            <div className="space-y-3">
-                                <div className="text-[10px] text-slate-500 uppercase tracking-widest">
-                                    {prayerStatus.loading ? 'Detecting location…' : (prayerStatus.locationLabel || 'Local Time')}
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-2 text-sm">
-                                    {['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map((name) => (
-                                        <div key={name} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-                                            <span className="text-slate-300 font-medium">{name}</span>
-                                            <span className="text-white font-mono">
-                                                {prayerStatus.timings?.[name]
-                                                    ? String(prayerStatus.timings[name]).split(' ')[0]
-                                                    : '--:--'}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {prayerStatus.nextPrayer && (
-                                    <div className="text-xs text-slate-400">
-                                        Next: <span className="text-white font-bold">{prayerStatus.nextPrayer.name}</span>
-                                        {' '}
-                                        <span className="font-mono text-accent-gold">
-                                            {prayerStatus.nextPrayer.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        )}
                     </section>
 
                     {/* Family Fleet Status */}

@@ -77,6 +77,80 @@ export default function Settings() {
         }
     };
 
+    const handleMissionReorder = (missionId, newOrder) => {
+        // Get all default missions
+        const allDefaultMissions = (allMissions || []).filter(m => !String(m.id).startsWith('custom_'));
+        
+        // Sort by current order
+        const sortedMissions = [...allDefaultMissions].sort((a, b) => (a.order || 0) - (b.order || 0));
+        
+        // Create new order assignments
+        const newOrderAssignments = [];
+        let targetInserted = false;
+        
+        sortedMissions.forEach((mission, index) => {
+            if (mission.id === missionId) {
+                return; // Skip target mission for now
+            }
+            
+            const currentPosition = index + 1;
+            
+            if (!targetInserted && currentPosition >= newOrder) {
+                newOrderAssignments.push({ id: missionId, order: newOrder });
+                targetInserted = true;
+            }
+            
+            const adjustedOrder = targetInserted ? currentPosition + 1 : currentPosition;
+            newOrderAssignments.push({ id: mission.id, order: adjustedOrder });
+        });
+        
+        if (!targetInserted) {
+            newOrderAssignments.push({ id: missionId, order: sortedMissions.length + 1 });
+        }
+        
+        // Apply all updates
+        newOrderAssignments.forEach(({ id, order }) => {
+            updateDefaultMission(id, { order });
+        });
+    };
+
+    const handleCustomMissionReorder = (missionId, newOrder) => {
+        // Get all custom missions
+        const allCustomMissions = (allMissions || []).filter(m => String(m.id).startsWith('custom_'));
+        
+        // Sort by current order
+        const sortedMissions = [...allCustomMissions].sort((a, b) => (a.order || 0) - (b.order || 0));
+        
+        // Create new order assignments
+        const newOrderAssignments = [];
+        let targetInserted = false;
+        
+        sortedMissions.forEach((mission, index) => {
+            if (mission.id === missionId) {
+                return; // Skip target mission for now
+            }
+            
+            const currentPosition = index + 1;
+            
+            if (!targetInserted && currentPosition >= newOrder) {
+                newOrderAssignments.push({ id: missionId, order: newOrder });
+                targetInserted = true;
+            }
+            
+            const adjustedOrder = targetInserted ? currentPosition + 1 : currentPosition;
+            newOrderAssignments.push({ id: mission.id, order: adjustedOrder });
+        });
+        
+        if (!targetInserted) {
+            newOrderAssignments.push({ id: missionId, order: sortedMissions.length + 1 });
+        }
+        
+        // Apply all updates
+        newOrderAssignments.forEach(({ id, order }) => {
+            updateCustomMission(id, { order });
+        });
+    };
+
     const handleAddCustomMission = () => {
         if (!newMission.name) return;
 

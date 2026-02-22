@@ -69,8 +69,16 @@ export function AppProvider({ children }) {
     }, [crew, logs, settings, customMissions, missionOverrides]);
 
     const allMissions = useMemo(() => {
-        const defaultWithOverrides = MISSIONS.map(m => ({ ...m, ...(missionOverrides[m.id] || {}) }));
-        return [...defaultWithOverrides, ...customMissions];
+        const defaultWithOverrides = MISSIONS.map(m => ({ 
+            ...m, 
+            ...(missionOverrides[m.id] || {}),
+            isDefault: true 
+        }));
+        const customWithFlags = customMissions.map(m => ({
+            ...m,
+            isDefault: false
+        }));
+        return [...defaultWithOverrides, ...customWithFlags];
     }, [customMissions, missionOverrides]);
 
     const updateDefaultMission = useCallback((missionId, updates) => {
@@ -192,6 +200,19 @@ export function AppProvider({ children }) {
         reloadState();
     }, [reloadState]);
 
+    const bumpMissionOrder = useCallback((missionId, direction) => {
+        const current = settings.missionOrder || [];
+        const currentIndex = current.indexOf(missionId);
+        if (currentIndex === -1) return;
+        
+        const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+        if (newIndex < 0 || newIndex >= current.length) return;
+        
+        const reordered = [...current];
+        [reordered[currentIndex], reordered[newIndex]] = [reordered[newIndex], reordered[currentIndex]];
+        setSettings(prev => ({ ...prev, missionOrder: reordered }));
+    }, [settings.missionOrder, setSettings]);
+
     const value = {
         crew,
         logs,
@@ -220,6 +241,7 @@ export function AppProvider({ children }) {
         removeCustomMission,
         resetAllData,
         isFirebaseReady,
+        bumpMissionOrder,
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

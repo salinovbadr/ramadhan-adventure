@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp, enableIndexedDbPersistence, connectFirestoreEmulator } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, initializeFirestore, CACHE_SIZE_UNLIMITED } from 'firebase/firestore';
 import { firebaseConfig } from '../../firebase-config.js';
 
 let app;
@@ -10,17 +10,10 @@ export function initFirebase() {
   try {
     // Initialize Firebase
     app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
     
-    // Enable offline persistence for better UX
-    enableIndexedDbPersistence(db).catch((err) => {
-      if (err.code === 'failed-precondition') {
-        console.warn('Firebase persistence failed - multiple tabs open');
-      } else if (err.code === 'unimplemented') {
-        console.warn('Firebase persistence not available - browser not supported');
-      } else {
-        console.warn('Firebase persistence failed:', err);
-      }
+    // Initialize Firestore with modern settings
+    db = initializeFirestore(app, {
+      cacheSizeBytes: CACHE_SIZE_UNLIMITED,
     });
     
     isFirebaseEnabled = true;
@@ -45,6 +38,10 @@ function getDeviceId() {
     localStorage.setItem('rmc_device_id', deviceId);
   }
   return deviceId;
+}
+
+export function getDb() {
+  return db;
 }
 
 // Fetch data from Firebase
